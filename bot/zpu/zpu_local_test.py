@@ -81,12 +81,23 @@ def run():
     if len(calls) > 0:
         for call in calls:
             if call.function.name == "query_book_info":
-                data = json.loads(call.function.arguments)
-                values_tuple = tuple(data.values())
-                book = locals()['query_book_info'](*values_tuple)
+                jsonData = json.loads(call.function.arguments)
+                resultJson = {'bookTitleMark': '', 'author': '', 'publishingHouse': '', 'date': ''}
+                resultJson.update(jsonData)
+                values_tuple = tuple(resultJson.values())
+                book = globals()['query_book_info'](*values_tuple)
                 print(book)
     print("none")
 
 
 if __name__ == "__main__":
+    # model='glm-4' created=1706957216 choices=[CompletionChoice(index=0, finish_reason='tool_calls', message=CompletionMessage(content=None, role='assistant', tool_calls=[CompletionMessageToolCall(id='call_8356033834230353403', function=Function(arguments='{"bookTitleMark":"红楼梦"}', name='query_book_info'), type='function')]))] request_id='8356033834230353403' id='8356033834230353403' usage=CompletionUsage(prompt_tokens=192, completion_tokens=17, total_tokens=209)
     run()
+    # jsonStr = '{"bookTitleMark":"红楼梦"}'
+    # jsonData = json.loads(jsonStr)
+    # resultJson = {'bookTitleMark':'','author':'','publishingHouse':'','date':''}
+    # resultJson.update(jsonData)
+    # print(resultJson)
+    # values_tuple = ('红楼梦','','','')
+    # locals()['query_book_info'](*values_tuple)
+    print('')
